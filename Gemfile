@@ -21,9 +21,9 @@ group :assets do
 end
 
 gem 'jquery-rails'
-group :development do
-  gem 'humdrum-rails', :path => '/Users/krishnan/Projects/VarmaLabs/OpenSource/humdrum'
-end
+#group :development do
+  #gem 'humdrum-rails', :path => '/Users/krishnan/Projects/VarmaLabs/OpenSource/humdrum'
+  #end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
