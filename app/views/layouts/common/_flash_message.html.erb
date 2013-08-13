@@ -1,0 +1,24 @@
+
+
+<%
+ 	if request.xhr?
+		flash_message = flash.now[:success] || flash.now[:notice] || flash.now[:alert]
+		style_classes = ""
+	else
+		style_classes = "margin-top-10 margin-bottom-5 margin-left-40 margin-right-40"
+		flash_message = flash[:success] || flash[:notice] || flash[:alert]
+	end
+	cls_name = "alert"
+	cls_name = 'alert-success' if flash.now[:success] || flash[:success]
+	cls_name = 'alert-notice' if flash.now[:notice] || flash[:notice]
+	cls_name = 'alert-error' if flash.now[:alert] || flash[:alert]
+	
+	flash_message = flash_message.strip if flash_message
+	
+ %>
+<% unless flash_message.blank? %>
+  <div class="<%= style_classes %> alert <%= cls_name %> fade in" data-alert="alert" style="margin-bottom:5px;">
+    <a class="close" data-dismiss='alert' href="#">×</a>
+    <p><%= flash_message %></p>
+  </div>
+<% end %>

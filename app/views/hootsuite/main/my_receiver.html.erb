@@ -1,0 +1,54 @@
+<% if Rails.env == "development" %>
+  <% app_receiver_url = "https://localhost:3000/app_receiver.js" %>
+<% elsif Rails.env == "production" %>
+  <% app_receiver_url = "https://d2l6uygi1pgnys.cloudfront.net/jsapi/0-5/app_receiver.js" %>
+<% else %>
+  <%# domain = #{request.protocol}#{request.host_with_port} %>
+  <% app_receiver_url = "https://localhost:3000/" %>
+<% end %>
+
+
+<!-- saved from url=(0061)https://hootsuite.s3.amazonaws.com/jsapi/0-5/my_receiver.html -->
+<html>
+  <body>
+    <script src="<%= app_receiver_url %>"></script>
+      <div class="webkit-line-gutter-backdrop"></div>
+      <table>
+        <tbody>
+          <tr>
+            <td class="webkit-line-number"></td>
+            <td class="webkit-line-content">
+              <span class="webkit-html-doctype">&lt;!DOCTYPE html&gt;</span>
+              <span class="webkit-html-tag">&lt;html&gt;</span>
+              <span class="webkit-html-tag">&lt;head&gt;</span>
+              <span class="webkit-html-tag">&lt;title&gt;</span>app receiver
+              <span class="webkit-html-tag">&lt;/title&gt;</span>
+              <span class="webkit-html-tag">&lt;meta 
+                <span class="webkit-html-attribute-name">content</span>="
+                <span class="webkit-html-attribute-value">text/html; charset=utf-8</span>" 
+                <span class="webkit-html-attribute-name">http-equiv</span>="
+                <span class="webkit-html-attribute-value">Content-Type</span>" /&gt;
+              </span>
+              <span class="webkit-html-tag">&lt;/head&gt;</span>
+              <span class="webkit-html-tag">&lt;body&gt;</span>
+              <span class="webkit-html-tag">&lt;script 
+              <span class="webkit-html-attribute-name">src</span>="
+                <a class="webkit-html-attribute-value webkit-html-resource-link" target="_blank" href="<%= app_receiver_url %>">
+                  <%= app_receiver_url %>
+                </a>" 
+                <span class="webkit-html-attribute-name">type</span>="
+                <span class="webkit-html-attribute-value">text/javascript</span>"&gt;
+              </span>
+              <span class="webkit-html-tag">&lt;/script&gt;</span>
+              <span class="webkit-html-tag">&lt;/body&gt;</span>
+              <span class="webkit-html-tag">&lt;/html&gt;</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="webkit-line-number"></td>
+            <td class="webkit-line-content"></td>
+          </tr>
+        </tbody>
+      </table>
+  </body>
+</html>

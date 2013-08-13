@@ -1,0 +1,42 @@
+
+<%# meta tags%>
+<% if @meta_tags %>
+  <% if @meta_tags[:rel_prev] %>
+    <link rel="prev" href="<%%= @meta_tags[:rel_prev] %>" />
+  <% end %>
+  <% if @meta_tags[:rel_next] %>
+    <link rel="next" href="<%%= @meta_tags[:rel_next] %>" />
+  <% end %>
+  <% if @meta_tags[:canonical] %>
+    <link rel="canonical" href="<%%= @meta_tags[:canonical] %>" />
+  <% end %>
+  <% if @meta_tags[:meta_description] %>
+    <meta name="description" content="<%%= @meta_tags[:meta_description] %>"></meta>
+  <% else %>
+    <meta name="description" content="Twitter Like App = A learning app."></meta>
+  <% end %>
+  <% if @meta_tags[:meta_keywords] %>
+    <meta name="keywords" content="<%%= @meta_tags[:meta_keywords] %>"></meta>
+  <% else %>
+    <% meta_keywords = "Twitter Like App = A learning app." %>
+    <meta name="keywords" content="<%%= meta_keywords %>"></meta>
+  <% end %>
+  <% if @meta_tags[:robots] %>
+    <meta name="robots" content="<%%= @meta_tags[:robots] %>" />
+  <% else %>
+    <meta name="robots" content="all" />
+  <% end %>
+<% end %>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="copyright" content="2012 kpvarma" />
+<meta name="content-language" content="en" />
+<meta name="author" content="K.P. Varma" />
+<meta name="resource-type" content="document" />
+<meta name="distribution" content="global" />
+<meta name="rating" content="general" />
+
+
+
+

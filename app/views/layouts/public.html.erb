@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+	
+		<title> Foursquare Application </title>
+		
+    <%= render :partial=>"/layouts/common/meta_tags" -%>
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="icon" href="/assets/favicon.ico" type="image/png">
+
+    <link type="text/css" rel="stylesheet" href="https://d2l6uygi1pgnys.cloudfront.net/jsapi/0-5/assets/css/ad_<%= params['theme'] -%>.css">
+
+    <%= csrf_meta_tags -%>
+
+    <%= stylesheet_link_tag "application", :media => "all" -%>
+    
+		<%#* Loading Javascripts -%>
+    <%= javascript_include_tag "authenticate" -%>
+
+    <!-- <script src="/assets/humdrum/modernizr.2.6.2.js"></script> -->
+    
+
+  </head>
+
+  <body id="page">
+		
+		<!--[if lt IE 7]>
+			<p class="chromeframe">You are using an <strong>outdated</strong> browser. 
+			Please <a href="http://browsehappy.com/">upgrade your browser</a> or 
+			<a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> 
+			to improve your experience.</p>
+		<![endif]-->
+		
+		<%#* Show flash messages if controller has set any. %>
+		<div id="div_flash_message">
+			<%= render :partial=>"/layouts/common/flash_message" -%>
+		</div>
+		
+    <div class="container-fluid padding-top-10" style="min-height:400px;">
+      <div class="" style="text-align:center;">
+        <img src="/assets/foursquare.png" style="height:200px;margin:10px auto">
+      </div>
+      <div class="cl=10"></div>
+      <%= yield %>
+    </div>
+
+    <%#* Display Footer -%>
+    <%= render :partial=>"/layouts/public/footer" -%>
+		
+		<script type='text/javascript'>
+      <%= yield :javascript -%>
+    
+      // Set up bwHsSsnId to store the current session id
+      <% if @user_session && @user_session.fs_auth_token %>
+        var bwHsSsnId = "<%= @user_session.id %>";
+        var bwHsuid = "<%= @user_session.hs_uid %>";
+        var bwHspid = "<%= @user_session.hs_pid %>";
+        var bwHsApiToken = "<%= @user_session.auth_token %>";
+      <% end %>
+      
+    </script>
+
+  </body>
+</html>
