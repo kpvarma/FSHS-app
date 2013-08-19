@@ -115,13 +115,13 @@ class ApplicationController < ActionController::Base
       return
     rescue PageNotFoundError
       respond_to do |format|
-        format.html { render :text => "PageNotFoundError", :layout=>'api' }
+        format.html { render :text => "PageNotFoundError", :layout=>'hootsuite' }
         format.json { head :no_content }
       end
       return
     rescue Exception=>e
       respond_to do |format|
-        format.html { render :text => e.message + "</br>" +  e.backtrace.join("</br>"), :layout=>'api' }
+        format.html { render :text => e.message + "</br>" +  e.backtrace.join("</br>"), :layout=>'hootsuite' }
         format.json { head :no_content }
       end
       return
