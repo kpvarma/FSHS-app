@@ -16,13 +16,17 @@ class ApplicationController < ActionController::Base
     
     ## Check if user session exists
     ## Create one with the passed uid, pid if one doesn't exists
-    @user_session = UserSession.find_or_create_user_session_from_hs_uid_and_pid(params['uid'], params['pid'], params['token'])
+    if params['uid'] && params['pid']
+      @user_session = UserSession.find_or_create_user_session_from_hs_uid_and_pid(params['uid'], params['pid'], params['token'])
+    elsif params['id']
+      @user_session = UserSession.find_by_id(params[:id])
+    end
     
     #puts "@user_session.id #{@user_session.id}".green if Rails.env == "development"
     
     ## Check if the user is authenticated with Brandwatch.
     ## It will have a valid fs_auth_token which wont be null.
-    redirect_to hootsuite_landing_page_path(:params => params) unless @user_session.fs_auth_token.blank?
+    redirect_to hootsuite_landing_page_path(:params => params) if @user_session && @user_session.id && @user_session.fs_auth_token
     
     return
   end
@@ -102,26 +106,23 @@ class ApplicationController < ActionController::Base
   
   def render_the_response(proc_code)
     begin
-      @object_data = proc_code.call
+      proc_code.call
     rescue RequireLoginError
       respond_to do |format|
         format.html { redirect_to new_session_path }
         format.json { head :no_content }
-        format.xml {}
       end
       return
     rescue PageNotFoundError
       respond_to do |format|
         format.html { render :text => "PageNotFoundError", :layout=>'api' }
         format.json { head :no_content }
-        format.xml {}
       end
       return
     rescue Exception=>e
       respond_to do |format|
         format.html { render :text => e.message + "</br>" +  e.backtrace.join("</br>"), :layout=>'api' }
         format.json { head :no_content }
-        format.xml {}
       end
       return
     end
@@ -129,10 +130,42 @@ class ApplicationController < ActionController::Base
       format.html { 
         redirect_to(@redirect_to_url, :notice => @notice_message) if @redirect_to_url
       }
-      format.json { render :json =>  @object_data }
-      format.xml { render :xml =>  @xml_string }
+      format.json { render :json =>  @json_string }
     end
     return
   end
+  
+  private
+  
+  def redirect_uri
+    hootsuite_redirect_page_url(session_id: @user_session.id) if @user_session
+  end
+  
+  def client_id
+    if Rails.env == "production"
+      client_id = "ARBO0LCIZVC3FTQMLNMGTFQF2EVD4UVT0425TFA0ZTCPHTYZ"
+    else
+      client_id = "IOMUMJQSZDLWTRYU4EQRPC3KY0NMDLGAJIQIKV4ZO2MTPMYZ"
+    end
+  end
+  
+  def client_secret
+    if Rails.env == "production"
+      client_secret = "1CMJ0R1XQZUPZSJLHZRRQ0SYFCHNK5HFYWS5KPNCLTW24SEX"
+    else
+      client_secret = "SEN4UAW5EGFWJB1OTXLKWYZLQHYT3ZKYSR23HCLK0WTANVMM"
+    end
+  end
+  
+  def response_type
+    "code"
+  end
+  
+  def grant_type
+    "authorization_code"
+  end
+  
+  helper_method :redirect_uri, :client_id, :client_secret, :response_type, :grant_type
+  
   
 end

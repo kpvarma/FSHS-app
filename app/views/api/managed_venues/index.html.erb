@@ -1,0 +1,31 @@
+
+	
+  <% @managed_venues['response']['venues']['items'].each do |venue| %>
+   
+     <div class="hs_message">
+     	<div class="hs_controls">
+     		<a href="#" class="hs_icon hs_reply" title="Reply">Reply</a>
+     		<a href="#" class="hs_icon hs_favorite" title="Favorite">Favorite</a>
+
+     		<a href="#" class="hs_icon hs_expand">more...</a>
+     		<div class="hs_moreOptionsMenu">
+     			<a href="#"><span class="hs_icon hs_replyAll"></span>Reply All</a>
+     			<a href="#"><span class="hs_icon hs_retweet"></span>RT</a>
+     			<a href="#"><span class="hs_icon hs_directMessage"></span>DM</a>
+     			<a href="#"><span class="hs_icon hs_email"></span>Email</a>
+     		</div>
+     	</div>
+     	<a title="Username" href="#" class="hs_networkAvatarLink"></a><img class="hs_networkAvatar" src="https://s3.amazonaws.com/twitter_production/profile_images/541333937/hootsuite-icon_normal.png">
+     	<a title="Username" class="hs_networkName" href="#"><%= venue['name'] %></a>
+     	<a target="_blank" href="<%= venue['canonicalUrl'] %>" class="hs_postTime">Jan 01, 12:34am via HootSuite</a>
+     	<div class="hs_messageContent"><%= venue['location'] %> <a href="="<%= venue['canonicalUrl'] %>" class="hs_hash" title="HashTagExample">#link</a></div>
+     </div>
+   
+     <!--<%# venue.each do |key, val| -%>
+      <%#= key -%> </br>
+      <%#= val -%> </br>
+     <%# end -%>-->
+     
+   <% end %>
+   
+

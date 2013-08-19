@@ -2,7 +2,7 @@
 <div style="margin-top:50px;padding:10px;">
 
   <%= link_to "Sign out", session_path(:id => @user_session.id), :method=>"delete" %>
-
+  
 </div>
 
   <!-- Stream -->
@@ -65,9 +65,9 @@
 		<!-- EMPTY NODE EXAMPLE --> 
 		<div class="hs_noMessage">
 			Themes:
-			<a class="hs_btn-cmt" href="?theme=blue_steel">Blue Steel</a>
-			<a class="hs_btn-cmt" href="?theme=magnum">Magnum</a>
-			<a class="hs_btn-cmt" href="?theme=classic">Classic</a>
+			<a class="hs_btn-cmt" href="<%= request.fullpath %>&theme=blue_steel">Blue Steel</a>
+			<a class="hs_btn-cmt" href="<%= request.fullpath %>&theme=magnum">Magnum</a>
+			<a class="hs_btn-cmt" href="<%= request.fullpath %>&theme=classic">Classic</a>
 		</div>
 		<div class="hs_noMessage">
 			Space for a user message or other text

@@ -3,13 +3,8 @@
 		<div class="auth_title">
 			<label class="hs_title">Login to Foursquare</label>
 
-      <% redirect_url = hootsuite_redirect_page_url(session_id: @user_session.id) %> </br>
-      <% client_id = "ARBO0LCIZVC3FTQMLNMGTFQF2EVD4UVT0425TFA0ZTCPHTYZ" %>
-      <% client_secret = "1CMJ0R1XQZUPZSJLHZRRQ0SYFCHNK5HFYWS5KPNCLTW24SEX" %>
-      <% response_type = "code" %>
-        
-			<%= link_to "Authenticate", 
-			"https://foursquare.com/oauth2/authenticate?client_id=#{client_id}&response_type=#{response_type}&redirect_uri=#{redirect_url}", 
+      <%= link_to "Authenticate", 
+			"https://foursquare.com/oauth2/authenticate?client_id=#{client_id}&response_type=#{response_type}&redirect_uri=#{redirect_uri}", 
 			:class=>"hs_btn-cmt auth", 
 			:style=>"text-decoration: none",
 			"data-loading-text"=>"Please Wait ..." %>

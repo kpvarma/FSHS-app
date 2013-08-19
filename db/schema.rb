@@ -11,12 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130614072254) do
+ActiveRecord::Schema.define(:version => 20130819094656) do
 
   create_table "user_sessions", :force => true do |t|
-    t.string   "email"
     t.string   "auth_token"
-    t.string   "j_session_id"
     t.string   "hs_pid"
     t.string   "hs_uid"
     t.string   "hs_auth_token"

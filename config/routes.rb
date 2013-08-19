@@ -10,6 +10,12 @@ Foursquare::Application.routes.draw do
   match 'hootsuite/authenticated' => 'hootsuite/main#authenticated', :as => :hootsuite_authenticated
   match 'hootsuite/redirect' => 'sessions#create', :as => :hootsuite_redirect_page
   
-  #get 'dc_receiver' => "welcome#dc_receiver"
+  ## --------
+  ## API URLS
+  ## --------
+
+  ## Projects
+  match 'api/managed_venues'            => 'api/managed_venues#index', :as => :api_managed_venues
+  match 'api/managed_venues/:id'        => 'api/managed_venues#show', :as => :api_managed_venue
   
 end

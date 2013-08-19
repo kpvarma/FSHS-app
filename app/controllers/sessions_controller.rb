@@ -14,16 +14,14 @@ class SessionsController < ApplicationController
   end
   
   def create
-    fs_auth_token = params["code"]
+    code = params["code"]
     @user_session = UserSession.find_by_id(params['session_id'])
-    @user_session.fs_auth_token = fs_auth_token
-    @user_session.save
+    
+    @user_session.login(client_id, client_secret, redirect_uri, code, grant_type)
     
     unless @user_session.valid?
       redirect_to new_session_path
       return
-    else
-      #@user_session.login
     end
     
     # Next requests should have auth_token either in params or in headers.

@@ -1,17 +1,14 @@
 class UserSession < ActiveRecord::Base
   
   attr_accessor :request
-  attr_accessible :email, :auth_token, :cookies, :j_session_id, :hs_uid, :hs_pid, :fs_auth_token, :hs_auth_token
+  attr_accessible :auth_token, :cookies, :hs_uid, :hs_pid, :fs_auth_token, :hs_auth_token
   
-  #validates :email, :presence=>true
-  #validates :auth_token, :presence=>true
-  #validates :j_session_id, :presence=>true
-  #validates :cookies, :presence=>true
+  validates :auth_token, :uniqueness => true
+  validates :hs_pid, :uniqueness => {:scope => :hs_uid}
   
   serialize :filter_params, Hash
   
-  LOGIN_URL = "http://workbench.brandwatch.com/j_acegi_security_check"
-  LOGOUT_URL = "http://workbench.brandwatch.com/logout"
+  LOGIN_URL = "https://foursquare.com/oauth2/access_token"
   
   before_create :generate_auth_token
   
@@ -34,42 +31,26 @@ class UserSession < ActiveRecord::Base
     self.auth_token = SecureRandom.hex
   end
   
-  def store_current_state(project_id, brand_id, filter_params = {})
-    self.project_id = project_id
-    self.brand_id = brand_id
-    self.filter_params = filter_params if filter_params.class == Hash && !filter_params.blank?
-    self.save
-  end
-  
-  def login_body
-    {j_username: email, j_password: fs_auth_token}
-  end
-  
-  def login_params
-    {output: "xml"}
-  end
-  
-  def login
+  def login(client_id, client_secret, redirect_uri, code, grant_type)
     
-    Rails.logger.info "Logging to #{LOGIN_URL} in as #{email}"
+    Rails.logger.info "Logging to #{LOGIN_URL}"
+    
     request = Typhoeus::Request.new(
       LOGIN_URL,
-      method: :post,
-      params: login_params,
-      body: login_body,
-      verbose: true
+      method: :get,
+      params: { client_id: client_id, client_secret: client_secret, grant_type: grant_type, code: code, redirect_uri: redirect_uri },
+      headers: { Accept: "text/json" }
     )
     
-    response = request.run
-    self.cookies = response.headers_hash["Set-Cookie"]
-    if self.cookies
-      hsh = cookies_hash
-      self.j_session_id = hsh['JSESSIONID'] if hsh && hsh.has_key?('JSESSIONID')
-      save
-    else
-      Rails.logger.info "Incorrect Cookie : #{cookies}. JSESSIONID not found in cookie."
-    end
-    Rails.logger.info "Storing the cookies : #{cookies}"
+    request.run
+    response = request.response
+    json = JSON.parse(response.body)
+    fs_auth_token = json['access_token']
+    
+    self.fs_auth_token = fs_auth_token
+    self.save
+    
+    Rails.logger.info "Logged in successfully and stored the access_token for further use"
   end
   
   def logout
